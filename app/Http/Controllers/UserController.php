@@ -18,11 +18,11 @@ Class UserController extends Controller {
     //************************************************************/
 
     public function successResponse($data, $code = Response::HTTP_OK){
-        return response()->json(['data' => $data], $code);
+        return response()->json(['data' => $data, 'site' => 1], $code);
     }
 
     public function errorResponse($message, $code){
-        return response()->json(['error' => $message, 'code' => $code], $code);
+        return response()->json(['error' => $message, 'site' => 1, 'code' => $code], $code);
     }
 
     //************************************************************/
@@ -52,7 +52,7 @@ Class UserController extends Controller {
 
         $this->validate($request,$rules); // validate which is under your request
         
-        $user =User::create($request->all()); //eloquent create, all meaning all the fields in your model
+        $user = User::create($request->all()); //eloquent create, all meaning all the fields in your model
 
         return  $this->successResponse($user, Response::HTTP_CREATED);
     }
@@ -102,7 +102,7 @@ Class UserController extends Controller {
         //you will find use the ID to find what record you want to update
         $user = User::where('ID',$id)->first(); 
 
-        if($user){
+        if($user){ 
             $user->delete();
             return "Successfully Deleted!";
         }
